@@ -1,3 +1,4 @@
 rootProject.name = 'EveCore'
+
 include 'MoriUtil'
 project(':MoriUtil').projectDir = new File("../MoriUtil")
