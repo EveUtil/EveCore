@@ -16,7 +16,7 @@ public class doom {
     private Class<?> cls;
 
     private String[] args;
-
+//test
     public doom(Class<?> cls,String[] args) {
         this.cls = cls;
         this.args = args;
