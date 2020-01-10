@@ -2,21 +2,16 @@ package pro.mori.eveCore;
 
 
 import com.alibaba.fastjson.JSONObject;
-import pro.mori.moriUtil.Util.ClassUtil;
-import pro.mori.moriUtil.Util.FormatUtil;
-import pro.mori.moriUtil.Util.HttpClient;
-import pro.mori.moriUtil.Util.impl.classImpl;
-import pro.mori.moriUtil.Util.impl.formatImpl;
-import pro.mori.moriUtil.Util.impl.httpClientImpl;
+import pro.mori.moriUtil.Util.*;
+import pro.mori.moriUtil.Util.impl.*;
 import pro.mori.moriUtil.common.FinalEnum;
 import pro.mori.moriUtil.common.HttpEnum;
 import pro.mori.moriUtil.common.UrlEnum;
-import pro.mori.moriUtil.model.ListInfo;
+import pro.mori.moriUtil.model.ContractList;
 import pro.mori.moriUtil.model.PostInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class doom {
@@ -28,6 +23,10 @@ public class doom {
     private HttpClient httpClient = new httpClientImpl();
 
     private PostInfo postInfo = new PostInfo();
+
+    private EveTypeCut eveTypeCut = new eveTypeCutImpl();
+
+    private FormatPrintf formatPrintf = new formatPrintfImpl();
 
     private Class<?> cls;
 
@@ -46,7 +45,7 @@ public class doom {
     }
 
     public doom test(){
-        System.out.println("初始化查询依赖是否存在");
+        System.out.println("Test");
         System.out.println(formatUtil.test());
         return this;
     }
@@ -95,45 +94,18 @@ public class doom {
         System.out.print("请输入查询地[默认为吉他(jita)] : ");
         Scanner input = new Scanner(System.in);
         queryInfo[0] = input.nextLine();
-        System.out.println("请输入内容 : ");
-        queryInfo[1] = "";
-        List<String> n1 = new ArrayList<>();
-        //对输入内容进行初步分割处理
-        do {
-            String string = input.nextLine();
-            if (string.equals("")) {
-                break;
-            }
-            queryInfo[1] += string;
-            n1.add(string);
-
-        } while (true);
+        List<Object> returnList = eveTypeCut.cutInputInfo();
+        queryInfo[1] = String.valueOf(returnList.get(0));
+        List<String> n1 = (ArrayList) returnList.get(1);
 
 
         //调试输出部分
-        System.out.println("--> " + queryInfo[0]);
-        for (String s : n1){
-            System.out.println(" --> " + s);
-        }
+//        formatPrintf.outPrintln(queryInfo[0]);
+//        formatPrintf.listStringPrintf(n1);
+//        System.out.println("-------------------------------------------------------");
 
-        System.out.println("----------------------------------------");
-
-
-        //对输入内容进行第二次分割处理
-        List<ListInfo> n2;
-        for (String s : n1){
-            ListInfo typeList = new ListInfo();
-
-            String[] len = s.split("\t");
-            for (String y : len){
-                System.out.println(y);
-            }
-
-//            typeList.setName();
-//            typeList.setAmount();
-//            typeList.setClass();
-//            typeList.setGroup();
-        }
+        List<ContractList> n2 = eveTypeCut.cutEveListInfo(n1);
+        formatPrintf.listContractPrintf(n2);
 
 
 
